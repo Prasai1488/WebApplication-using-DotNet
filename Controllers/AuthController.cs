@@ -9,12 +9,12 @@ namespace WebApplication1.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController: ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly DataContext _context;
         private readonly JwtService _jwtService;
 
-        public AuthController(DataContext context,JwtService jwtService)
+        public AuthController(DataContext context, JwtService jwtService)
         {
             this._context = context;
             this._jwtService = jwtService;
@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers
 
                 // checking for duplicate username or email:
                 if (_context.Users.Any(u => u.Email == registerDto.Email || u.Username == registerDto.Username))
-                    return BadRequest(new {Message = "Fuck off"});
+                    return BadRequest(new { Message = "Invalid Credentials" });
 
                 // now lets create new user
                 var user = new User
@@ -52,16 +52,8 @@ namespace WebApplication1.Controllers
 
             }
 
-
-
-
-
-
-
             catch (DbUpdateException ex)
             {
-               
-          
                 return StatusCode(500, new { Message = "Database error occurred." });
             }
 
@@ -80,7 +72,7 @@ namespace WebApplication1.Controllers
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginDto.Username);
 
                 if (user == null)
-                
+
                     return Unauthorized(new { Message = "Invalid credentials" });
 
                 if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
@@ -89,9 +81,9 @@ namespace WebApplication1.Controllers
                 // Now lets generate jwt token
                 var token = _jwtService.GenerateJwtToken(user);
 
-                return Ok(new {Message = "Login Success", Token = token });
+                return Ok(new { Message = "Login Success", Token = token });
 
-            } 
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, new { Message = "Something unusal happened " });
@@ -100,5 +92,5 @@ namespace WebApplication1.Controllers
 
     }
 
-   
+
 }
