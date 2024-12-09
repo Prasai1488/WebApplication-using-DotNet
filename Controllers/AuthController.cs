@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers
 
                 // checking for duplicate username or email:
                 if (_context.Users.Any(u => u.Email == registerDto.Email || u.Username == registerDto.Username))
-                    return BadRequest(new { Message = "Invalid Credentials" });
+                    return BadRequest(new { Message = "Username or Email is already taken." });
 
                 // now lets create new user
                 var user = new User
