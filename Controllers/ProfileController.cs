@@ -32,7 +32,7 @@ namespace WebApplication1.Controllers
                 // Get the user ID from token 
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                if (userId == null)
+                if (string.IsNullOrEmpty(userId))
                 {
                     return Unauthorized(new { Message = "Not authorized." });
                 }
@@ -77,7 +77,7 @@ namespace WebApplication1.Controllers
                 // Get the user ID from token 
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                if (userId == null)
+                if (string.IsNullOrEmpty(userId))
                 {
                     return Unauthorized(new { Message = "Not authorized." });
                 }
@@ -132,7 +132,7 @@ namespace WebApplication1.Controllers
                 // Extract user id from token
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                if (userId == null)
+                if (string.IsNullOrEmpty(userId))
                 {
                     return Unauthorized(new { Message = "Not authorized" });
                 }
